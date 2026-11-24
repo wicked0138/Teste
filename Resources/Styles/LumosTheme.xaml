@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:conv="clr-namespace:LumosBarbearia.Converters">
+
+    <conv:InverterBoolConverter x:Key="InverterBool" />
+
+    <!-- ===== Cores ===== -->
+    <Color x:Key="LumosBg">#0B0B0C</Color>
+    <Color x:Key="LumosSurface">#161618</Color>
+    <Color x:Key="LumosSurfaceAlt">#202024</Color>
+    <Color x:Key="LumosGold">#F5C518</Color>
+    <Color x:Key="LumosText">#FFFFFF</Color>
+    <Color x:Key="LumosMuted">#9A9AA0</Color>
+    <Color x:Key="LumosDanger">#FF6B6B</Color>
+    <Color x:Key="LumosSuccess">#4ADE80</Color>
+    <Color x:Key="LumosOnGold">#0B0B0C</Color>
+
+    <SolidColorBrush x:Key="LumosBorderBrush" Color="#2A2A2E" />
+    <SolidColorBrush x:Key="LumosGoldBrush" Color="#F5C518" />
+
+    <!-- ===== Botões ===== -->
+    <Style x:Key="GoldButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource LumosGold}" />
+        <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="52" />
+        <Setter Property="Padding" Value="20,0" />
+        <Style.Triggers>
+            <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="OutlineButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource LumosText}" />
+        <Setter Property="BorderColor" Value="#3A3A40" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="Padding" Value="16,0" />
+    </Style>
+
+    <!-- ===== Campos de texto ===== -->
+    <Style x:Key="LumosEntry" TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource LumosText}" />
+        <Setter Property="PlaceholderColor" Value="#6C6C72" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="HeightRequest" Value="50" />
+    </Style>
+
+    <!-- Cartão padrão -->
+    <Style x:Key="LumosCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource LumosSurface}" />
+        <Setter Property="Stroke" Value="{StaticResource LumosBorderBrush}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+</ResourceDictionary>

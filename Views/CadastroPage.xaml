@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LumosBarbearia.ViewModels"
+             x:Class="LumosBarbearia.Views.CadastroPage"
+             x:DataType="vm:CadastroViewModel"
+             Title="Cadastro"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource LumosBg}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,40,24,40" Spacing="20">
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="LUMOS BARBEARIA" TextColor="{StaticResource LumosGold}"
+                       FontSize="12" FontAttributes="Bold" CharacterSpacing="3" />
+                <Label Text="Complete seu cadastro" TextColor="{StaticResource LumosText}"
+                       FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Precisamos de poucos dados para confirmar seus horários."
+                       TextColor="{StaticResource LumosMuted}" FontSize="14" />
+            </VerticalStackLayout>
+
+            <!-- Erro -->
+            <Border IsVisible="{Binding HasErro}" BackgroundColor="#2A1717"
+                    Stroke="{StaticResource LumosDanger}" StrokeThickness="1" Padding="14,12">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <Label Text="{Binding ErroMensagem}" TextColor="{StaticResource LumosDanger}" FontSize="14" />
+            </Border>
+
+            <!-- Nome -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Nome completo" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                        StrokeThickness="1" Padding="14,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Entry Text="{Binding Nome}" Placeholder="Como devemos te chamar?"
+                           Style="{StaticResource LumosEntry}" Keyboard="Text" ReturnType="Next"
+                           SemanticProperties.Description="Nome completo" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- E-mail -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="E-mail" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                        StrokeThickness="1" Padding="14,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Entry Text="{Binding Email}" Placeholder="voce@email.com"
+                           Style="{StaticResource LumosEntry}" Keyboard="Email" ReturnType="Next"
+                           IsEnabled="{Binding EmailEditavel}"
+                           SemanticProperties.Description="E-mail" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Telefone -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Telefone (WhatsApp)" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                        StrokeThickness="1" Padding="14,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Entry Text="{Binding Telefone}" Placeholder="(11) 91234-5678" MaxLength="18"
+                           Style="{StaticResource LumosEntry}" Keyboard="Telephone" ReturnType="Done"
+                           SemanticProperties.Description="Telefone com DDD" />
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Aceite LGPD -->
+            <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                    StrokeThickness="1" Padding="16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <CheckBox Grid.Column="0" IsChecked="{Binding AceitouLgpd}" Color="{StaticResource LumosGold}"
+                              VerticalOptions="Start" Margin="-6,-6,0,0"
+                              SemanticProperties.Description="Aceito o tratamento dos meus dados pessoais" />
+                    <Label Grid.Column="1" Text="{Binding TextoLgpd}" TextColor="{StaticResource LumosText}"
+                           FontSize="13" LineHeight="1.3" />
+                </Grid>
+            </Border>
+
+            <Button Text="Concluir cadastro" Style="{StaticResource GoldButton}"
+                    Command="{Binding SalvarCommand}" Margin="0,8,0,0" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource LumosGold}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LumosBarbearia.ViewModels"
+             x:Class="LumosBarbearia.Views.AgendarPage"
+             x:DataType="vm:AgendarViewModel"
+             Title="Agendar"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource LumosBg}">
+
+    <Grid>
+
+        <!-- ===================== CONTEÚDO ===================== -->
+        <ScrollView>
+            <VerticalStackLayout Padding="0,28,0,32" Spacing="24">
+
+                <VerticalStackLayout Padding="20,0" Spacing="2">
+                    <Label Text="LUMOS BARBEARIA" TextColor="{StaticResource LumosGold}"
+                           FontSize="12" FontAttributes="Bold" CharacterSpacing="3" />
+                    <Label Text="Reserve seu horário" TextColor="{StaticResource LumosText}"
+                           FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                </VerticalStackLayout>
+
+                <!-- Erro -->
+                <Border IsVisible="{Binding HasErro}" Margin="20,0" BackgroundColor="#2A1717"
+                        Stroke="{StaticResource LumosDanger}" StrokeThickness="1" Padding="14,12">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                    <Label Text="{Binding ErroMensagem}" TextColor="{StaticResource LumosDanger}" FontSize="14" />
+                </Border>
+
+                <!-- ===== Dia ===== -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Escolha o dia" Margin="20,0" TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Padding="20,0" Spacing="10"
+                                               BindableLayout.ItemsSource="{Binding Dias}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DiaItem">
+                                    <Border WidthRequest="64" Padding="0,12" BackgroundColor="{StaticResource LumosSurface}"
+                                            Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Selecionar}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource LumosGold}" />
+                                                <Setter Property="Stroke" Value="{StaticResource LumosGoldBrush}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                                            <Label Text="{Binding DiaSemana}" FontSize="12" HorizontalOptions="Center"
+                                                   TextColor="{StaticResource LumosMuted}">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Text="{Binding DiaNumero}" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center"
+                                                   TextColor="{StaticResource LumosText}">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                            <Label Text="{Binding Mes}" FontSize="11" HorizontalOptions="Center"
+                                                   TextColor="{StaticResource LumosMuted}">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <!-- ===== Barbeiro ===== -->
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Escolha o barbeiro" Margin="20,0" TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout Padding="20,0" Spacing="10"
+                                               BindableLayout.ItemsSource="{Binding Barbeiros}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:BarbeiroItem">
+                                    <Border Padding="14,10" BackgroundColor="{StaticResource LumosSurface}"
+                                            Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Selecionar}" CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                        <Border.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="{StaticResource LumosGold}" />
+                                                <Setter Property="Stroke" Value="{StaticResource LumosGoldBrush}" />
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        <HorizontalStackLayout Spacing="10">
+                                            <Border WidthRequest="34" HeightRequest="34" BackgroundColor="{StaticResource LumosSurfaceAlt}"
+                                                    StrokeThickness="0" VerticalOptions="Center">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="17" /></Border.StrokeShape>
+                                                <Label Text="{Binding Inicial}" TextColor="{StaticResource LumosGold}" FontAttributes="Bold"
+                                                       HorizontalOptions="Center" VerticalOptions="Center" />
+                                            </Border>
+                                            <Label Text="{Binding Nome}" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"
+                                                   TextColor="{StaticResource LumosText}">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <!-- ===== Serviço ===== -->
+                <VerticalStackLayout Spacing="10" Padding="20,0">
+                    <Label Text="Escolha o serviço" TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <VerticalStackLayout Spacing="10" BindableLayout.ItemsSource="{Binding Servicos}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ServicoItem">
+                                <Border Padding="16" BackgroundColor="{StaticResource LumosSurface}"
+                                        Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Selecionar}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Stroke" Value="{StaticResource LumosGoldBrush}" />
+                                            <Setter Property="BackgroundColor" Value="#221D0A" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding Nome}" TextColor="{StaticResource LumosText}"
+                                                   FontSize="17" FontAttributes="Bold" />
+                                            <Label Text="{Binding DuracaoTexto}" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="1" Text="{Binding PrecoTexto}" TextColor="{StaticResource LumosGold}"
+                                               FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- ===== Horários ===== -->
+                <VerticalStackLayout Spacing="10" Padding="20,0">
+                    <Label Text="Horários disponíveis" TextColor="{StaticResource LumosMuted}" FontSize="14" />
+
+                    <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Start"
+                                BindableLayout.ItemsSource="{Binding Horarios}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:HorarioItem">
+                                <Border WidthRequest="76" HeightRequest="44" Margin="0,0,10,10"
+                                        BackgroundColor="{StaticResource LumosSurface}"
+                                        Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Selecionar}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Disponivel}" Value="False">
+                                            <Setter Property="Opacity" Value="0.3" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource LumosGold}" />
+                                            <Setter Property="Stroke" Value="{StaticResource LumosGoldBrush}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Label Text="{Binding Texto}" FontSize="15" FontAttributes="Bold"
+                                           HorizontalOptions="Center" VerticalOptions="Center"
+                                           TextColor="{StaticResource LumosText}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource LumosOnGold}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+
+                    <Label IsVisible="{Binding SemHorarios}" TextColor="{StaticResource LumosMuted}" FontSize="14"
+                           Text="Não há horários livres neste dia para o serviço escolhido. Tente outro dia ou barbeiro." />
+                </VerticalStackLayout>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                                   Color="{StaticResource LumosGold}" HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- ===================== BOTTOM SHEET ===================== -->
+        <Grid IsVisible="{Binding IsSheetOpen}">
+            <BoxView Color="#000000" Opacity="0.6">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding FecharSheetCommand}" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+            <Border VerticalOptions="End" Padding="24,20,24,28" BackgroundColor="{StaticResource LumosSurface}"
+                    Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28,28,0,0" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="16">
+                    <BoxView WidthRequest="44" HeightRequest="4" CornerRadius="2" Color="#3A3A40" HorizontalOptions="Center" />
+
+                    <Label Text="Confirmar reserva" TextColor="{StaticResource LumosText}" FontSize="22" FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnSpacing="18" RowSpacing="10">
+                        <Label Grid.Row="0" Text="Barbeiro" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding ResumoBarbeiro}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosText}" FontAttributes="Bold" />
+                        <Label Grid.Row="1" Text="Serviço" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding ResumoServico}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosText}" FontAttributes="Bold" />
+                        <Label Grid.Row="2" Text="Data" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding ResumoData}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosText}" FontAttributes="Bold" />
+                        <Label Grid.Row="3" Text="Horário" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding ResumoHorario}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosText}" FontAttributes="Bold" />
+                        <Label Grid.Row="4" Text="Duração" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding ResumoDuracao}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosText}" FontAttributes="Bold" />
+                        <Label Grid.Row="5" Text="Valor" TextColor="{StaticResource LumosMuted}" />
+                        <Label Grid.Row="5" Grid.Column="1" Text="{Binding ResumoPreco}" HorizontalOptions="End"
+                               TextColor="{StaticResource LumosGold}" FontSize="20" FontAttributes="Bold" />
+                    </Grid>
+
+                    <Button Text="Reservar" Style="{StaticResource GoldButton}" Margin="0,6,0,0"
+                            Command="{Binding ReservarCommand}" IsEnabled="{Binding IsReservando, Converter={StaticResource InverterBool}}" />
+                    <Button Text="Voltar" Style="{StaticResource OutlineButton}" Command="{Binding FecharSheetCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LumosBarbearia.ViewModels"
+             x:Class="LumosBarbearia.Views.PerfilPage"
+             x:DataType="vm:PerfilViewModel"
+             Title="Conta"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource LumosBg}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,28,20,40" Spacing="20">
+
+            <VerticalStackLayout Spacing="2">
+                <Label Text="CONTA" TextColor="{StaticResource LumosGold}"
+                       FontSize="12" FontAttributes="Bold" CharacterSpacing="3" />
+                <Label Text="Seu perfil" TextColor="{StaticResource LumosText}"
+                       FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+            </VerticalStackLayout>
+
+            <Border IsVisible="{Binding HasErro}" BackgroundColor="#2A1717"
+                    Stroke="{StaticResource LumosDanger}" StrokeThickness="1" Padding="14,12">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <Label Text="{Binding ErroMensagem}" TextColor="{StaticResource LumosDanger}" FontSize="14" />
+            </Border>
+
+            <!-- ===== Deslogado ===== -->
+            <Border IsVisible="{Binding Deslogado}" Style="{StaticResource LumosCard}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Você não está logado." TextColor="{StaticResource LumosText}"
+                           FontSize="17" FontAttributes="Bold" />
+                    <Label Text="Entre para reservar horários e acompanhar o status dos seus agendamentos."
+                           TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <Button Text="Entrar ou criar conta" Style="{StaticResource GoldButton}" Command="{Binding EntrarCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ===== Logado ===== -->
+            <VerticalStackLayout Spacing="16" IsVisible="{Binding Logado}">
+
+                <Border Style="{StaticResource LumosCard}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="16">
+                        <Border Grid.Column="0" WidthRequest="56" HeightRequest="56"
+                                BackgroundColor="{StaticResource LumosSurfaceAlt}" StrokeThickness="0" VerticalOptions="Center">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="28" /></Border.StrokeShape>
+                            <Label Text="{Binding Inicial}" TextColor="{StaticResource LumosGold}" FontSize="24"
+                                   FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="{Binding Nome}" TextColor="{StaticResource LumosText}" FontSize="18"
+                                   FontAttributes="Bold" LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding Email}" TextColor="{StaticResource LumosMuted}" FontSize="13"
+                                   LineBreakMode="TailTruncation" MaxLines="1" />
+                            <Label Text="{Binding Telefone}" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <Border IsVisible="{Binding EhBarbeiro}" BackgroundColor="#221D0A"
+                        Stroke="{StaticResource LumosGoldBrush}" StrokeThickness="1" Padding="14,10">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                    <Label Text="Conta de barbeiro: a aba Balcão está liberada." TextColor="{StaticResource LumosGold}" FontSize="14" />
+                </Border>
+
+                <Border IsVisible="{Binding PrecisaCadastro}" Style="{StaticResource LumosCard}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Seu cadastro está incompleto." TextColor="{StaticResource LumosText}"
+                               FontSize="16" FontAttributes="Bold" />
+                        <Label Text="Precisamos do telefone e do aceite da LGPD para você agendar."
+                               TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                        <Button Text="Concluir cadastro" Style="{StaticResource GoldButton}"
+                                Command="{Binding EditarCadastroCommand}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Editar cadastro" Style="{StaticResource OutlineButton}"
+                        IsVisible="{Binding PrecisaCadastro, Converter={StaticResource InverterBool}}"
+                        Command="{Binding EditarCadastroCommand}" />
+                <Button Text="Sair da conta" Style="{StaticResource OutlineButton}" TextColor="{StaticResource LumosDanger}"
+                        Command="{Binding SairCommand}" />
+            </VerticalStackLayout>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource LumosGold}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

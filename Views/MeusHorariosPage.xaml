@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LumosBarbearia.ViewModels"
+             x:Class="LumosBarbearia.Views.MeusHorariosPage"
+             x:DataType="vm:MeusHorariosViewModel"
+             Title="Meus horários"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource LumosBg}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20,28,20,12" Spacing="14">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="MEUS HORÁRIOS" TextColor="{StaticResource LumosGold}"
+                       FontSize="12" FontAttributes="Bold" CharacterSpacing="3" />
+                <Label Text="Seus agendamentos" TextColor="{StaticResource LumosText}"
+                       FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+            </VerticalStackLayout>
+
+            <Border IsVisible="{Binding HasErro}" BackgroundColor="#2A1717"
+                    Stroke="{StaticResource LumosDanger}" StrokeThickness="1" Padding="14,12">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <Label Text="{Binding ErroMensagem}" TextColor="{StaticResource LumosDanger}" FontSize="14" />
+            </Border>
+
+            <!-- Precisa entrar -->
+            <Border IsVisible="{Binding PrecisaLogin}" Style="{StaticResource LumosCard}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Entre na sua conta para ver e gerenciar seus horários."
+                           TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <Button Text="Entrar" Style="{StaticResource GoldButton}" Command="{Binding IrLoginCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Precisa concluir o cadastro -->
+            <Border IsVisible="{Binding PrecisaCadastro}" Style="{StaticResource LumosCard}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Conclua seu cadastro (telefone e LGPD) para agendar."
+                           TextColor="{StaticResource LumosMuted}" FontSize="14" />
+                    <Button Text="Concluir cadastro" Style="{StaticResource GoldButton}" Command="{Binding IrCadastroCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1" IsVisible="{Binding MostrarLista}" IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding AtualizarCommand}" RefreshColor="{StaticResource LumosGold}">
+            <CollectionView ItemsSource="{Binding Itens}" SelectionMode="None" Margin="20,0,20,0">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Spacing="14" Margin="0,40" HorizontalOptions="Center">
+                        <Label Text="Você ainda não tem agendamentos." TextColor="{StaticResource LumosMuted}"
+                               HorizontalOptions="Center" />
+                        <Button Text="Agendar agora" Style="{StaticResource GoldButton}" WidthRequest="220"
+                                Command="{Binding NovoAgendamentoCommand}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.Footer>
+                    <BoxView HeightRequest="24" Color="Transparent" />
+                </CollectionView.Footer>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:MeuAgendamentoItem">
+                        <Border Padding="16" BackgroundColor="{StaticResource LumosSurface}"
+                                Stroke="{StaticResource LumosBorderBrush}" StrokeThickness="1">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsPassado}" Value="True">
+                                    <Setter Property="Opacity" Value="0.55" />
+                                </DataTrigger>
+                            </Border.Triggers>
+
+                            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="14" ColumnSpacing="12">
+
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="3">
+                                    <Label Text="{Binding DataTexto}" TextColor="{StaticResource LumosText}"
+                                           FontSize="16" FontAttributes="Bold" />
+                                    <Label Text="{Binding HorarioTexto}" TextColor="{StaticResource LumosGold}"
+                                           FontSize="20" FontAttributes="Bold" />
+                                    <Label Text="{Binding Servico}" TextColor="{StaticResource LumosText}" FontSize="14" />
+                                    <Label Text="{Binding Barbeiro}" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                                    <Label Text="{Binding PrecoTexto}" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                                </VerticalStackLayout>
+
+                                <Border Grid.Row="0" Grid.Column="1" Padding="10,4" VerticalOptions="Start"
+                                        BackgroundColor="#3A3216" StrokeThickness="0">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="confirmado">
+                                            <Setter Property="BackgroundColor" Value="#12301F" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="cancelado">
+                                            <Setter Property="BackgroundColor" Value="#3A1A1A" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Border" Binding="{Binding Status}" Value="concluido">
+                                            <Setter Property="BackgroundColor" Value="#1F2A3A" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Label Text="{Binding StatusTexto}" FontSize="12" FontAttributes="Bold"
+                                           TextColor="{StaticResource LumosGold}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="confirmado">
+                                                <Setter Property="TextColor" Value="{StaticResource LumosSuccess}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="cancelado">
+                                                <Setter Property="TextColor" Value="{StaticResource LumosDanger}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding Status}" Value="concluido">
+                                                <Setter Property="TextColor" Value="#7DB7FF" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
+
+                                <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="10"
+                                                       IsVisible="{Binding PodeAlterar}">
+                                    <Button Text="Remarcar" Style="{StaticResource OutlineButton}" WidthRequest="130"
+                                            Command="{Binding Remarcar}" CommandParameter="{Binding .}" />
+                                    <Button Text="Cancelar" Style="{StaticResource OutlineButton}" WidthRequest="130"
+                                            TextColor="{StaticResource LumosDanger}"
+                                            Command="{Binding Cancelar}" CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <ActivityIndicator Grid.Row="1" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                           Color="{StaticResource LumosGold}" HorizontalOptions="Center" VerticalOptions="Start"
+                           Margin="0,24,0,0" />
+    </Grid>
+</ContentPage>

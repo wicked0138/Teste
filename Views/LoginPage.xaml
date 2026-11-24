@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LumosBarbearia.ViewModels"
+             x:Class="LumosBarbearia.Views.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Title="Entrar"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource LumosBg}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,48,24,40" Spacing="20">
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="LUMOS BARBEARIA" TextColor="{StaticResource LumosGold}"
+                       FontSize="12" FontAttributes="Bold" CharacterSpacing="3" />
+                <Label Text="Entre na sua conta" TextColor="{StaticResource LumosText}"
+                       FontSize="28" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Para reservar e acompanhar seus horários."
+                       TextColor="{StaticResource LumosMuted}" FontSize="14" />
+            </VerticalStackLayout>
+
+            <Border IsVisible="{Binding HasErro}" BackgroundColor="#2A1717"
+                    Stroke="{StaticResource LumosDanger}" StrokeThickness="1" Padding="14,12">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <Label Text="{Binding ErroMensagem}" TextColor="{StaticResource LumosDanger}" FontSize="14" />
+            </Border>
+
+            <!-- Google (somente Android) -->
+            <VerticalStackLayout Spacing="20" IsVisible="{Binding GoogleDisponivel}">
+                <Button Text="Continuar com Google" Style="{StaticResource GoldButton}"
+                        Command="{Binding EntrarGoogleCommand}" />
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12">
+                    <BoxView Grid.Column="0" HeightRequest="1" Color="#2A2A2E" VerticalOptions="Center" />
+                    <Label Grid.Column="1" Text="ou" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                    <BoxView Grid.Column="2" HeightRequest="1" Color="#2A2A2E" VerticalOptions="Center" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="E-mail" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                        StrokeThickness="1" Padding="14,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Entry Text="{Binding Email}" Placeholder="voce@email.com" Keyboard="Email" ReturnType="Next"
+                           Style="{StaticResource LumosEntry}" SemanticProperties.Description="E-mail" />
+                </Border>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Senha" TextColor="{StaticResource LumosMuted}" FontSize="13" />
+                <Border BackgroundColor="{StaticResource LumosSurface}" Stroke="{StaticResource LumosBorderBrush}"
+                        StrokeThickness="1" Padding="14,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <Entry Text="{Binding Senha}" Placeholder="Mínimo 6 caracteres" IsPassword="True" ReturnType="Done"
+                           ReturnCommand="{Binding EntrarEmailCommand}"
+                           Style="{StaticResource LumosEntry}" SemanticProperties.Description="Senha" />
+                </Border>
+            </VerticalStackLayout>
+
+            <Button Text="Entrar" Style="{StaticResource GoldButton}" Command="{Binding EntrarEmailCommand}" Margin="0,6,0,0" />
+            <Button Text="Criar conta com este e-mail" Style="{StaticResource OutlineButton}"
+                    Command="{Binding CriarContaCommand}" />
+            <Button Text="Voltar" BackgroundColor="Transparent" TextColor="{StaticResource LumosMuted}"
+                    Command="{Binding FecharCommand}" />
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                               Color="{StaticResource LumosGold}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

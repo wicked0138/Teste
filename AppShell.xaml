@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:LumosBarbearia.Views"
+       x:Class="LumosBarbearia.AppShell"
+       FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource LumosBg}"
+       Shell.TabBarBackgroundColor="{StaticResource LumosSurface}"
+       Shell.TabBarForegroundColor="{StaticResource LumosGold}"
+       Shell.TabBarTitleColor="{StaticResource LumosGold}"
+       Shell.TabBarUnselectedColor="{StaticResource LumosMuted}">
+
+    <TabBar>
+        <ShellContent Title="Agendar" Route="agendar"
+                      ContentTemplate="{DataTemplate views:AgendarPage}" />
+        <ShellContent Title="Meus horários" Route="meus"
+                      ContentTemplate="{DataTemplate views:MeusHorariosPage}" />
+        <!-- Só aparece para contas de barbeiro (controlado em AppShell.xaml.cs) -->
+        <ShellContent x:Name="BalcaoTab" Title="Balcão" Route="balcao" IsVisible="False"
+                      ContentTemplate="{DataTemplate views:BalcaoPage}" />
+        <ShellContent Title="Conta" Route="conta"
+                      ContentTemplate="{DataTemplate views:PerfilPage}" />
+    </TabBar>
+
+</Shell>
